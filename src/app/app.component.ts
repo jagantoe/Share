@@ -6,5 +6,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Share';
+  track: MediaStreamTrack | null = null;
+
+  async share() {
+    if (this.track != null) {
+      this.track.stop();
+    }
+    const video = document.getElementById("video") as HTMLVideoElement;
+    var stream = await navigator.mediaDevices.getDisplayMedia({ audio: false, video: true });
+    video.srcObject = stream;
+    this.track = stream.getTracks()[0];
+  }
 }
